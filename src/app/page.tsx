@@ -1,65 +1,56 @@
-import Image from "next/image";
+import AboutSection from "@/components/AboutSection";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="relative min-h-screen flex flex-col font-sans">
+      {/* AI Theme Effect Background */}
+      <div className="ai-theme-bg"></div>
+      
+      <main className="flex-1 flex flex-col items-center justify-center p-8 min-h-screen">
+        <div className="glass-panel max-w-3xl w-full p-12 flex flex-col items-center text-center space-y-6 relative overflow-hidden">
+          {/* Subtle glowing orb inside the glass panel */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-purple-500/20 blur-3xl rounded-full pointer-events-none"></div>
+          
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-white z-10">
+            Welcome to the <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500">AI Future</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-xl text-zinc-300 max-w-xl z-10">
+            I build automated, high-performance web experiences powered by intelligent systems. Let an AI optimize your digital presence.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-6 mt-8 z-10 w-full px-4 sm:px-0">
+            {/* View Portfolio Button */}
+            <Link 
+              href="/backup" 
+              className="group relative w-full sm:w-auto overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-black"
+            >
+              <span className="absolute inset-[-1000%] animate-[spin_3s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+              <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-zinc-950 px-8 py-3.5 text-base font-semibold text-white backdrop-blur-3xl transition-all duration-300 group-hover:bg-zinc-900 group-hover:text-purple-200 shadow-xl">
+                View Portfolio
+                <svg className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+            </Link>
+
+            {/* Talk to AI Assistant Button */}
+            <Link 
+              href="/assistant" 
+              className="group relative w-full sm:w-auto rounded-full bg-white/5 px-8 py-3.5 text-base font-semibold text-white shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)] ring-1 ring-white/10 backdrop-blur-lg transition-all duration-300 hover:bg-white/10 hover:shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:ring-purple-500/50 block text-center"
+            >
+              <span className="flex items-center justify-center">
+                <svg className="mr-2 h-5 w-5 text-purple-400 animate-pulse" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Talk to AI Assistant
+              </span>
+            </Link>
+          </div>
         </div>
       </main>
+
+      <AboutSection />
     </div>
   );
 }
