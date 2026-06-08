@@ -4,10 +4,45 @@ import Link from "next/link";
 import { useState } from "react";
 import { Bot, Mail, Lock, User, ArrowRight } from "lucide-react";
 import { CaptchaWidget } from "@/components/CaptchaWidget";
+import { supabase } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [captchaVerified, setCaptchaVerified] = useState(false);
   const [agreed, setAgreed] = useState(false);
+  const router = useRouter();
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!captchaVerified || !agreed) {
+      setError("Please complete the security check and agree to terms.");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { full_name: name },
+      },
+    });
+
+    if (error) {
+      setError(error.message);
+      setLoading(false);
+    } else {
+      router.push("/dashboard/profile");
+    }
+  };
 
   return (
     <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4">
@@ -26,7 +61,13 @@ export default function SignupPage() {
             <p className="text-sm text-zinc-400">Start automating your workflow today with SmartSphere</p>
           </div>
 
-          <form className="space-y-4 z-10">
+          {error && (
+            <div className="z-10 bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-lg text-sm text-center">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSignup} className="space-y-4 z-10">
             <div className="space-y-1">
               <label className="text-sm font-medium text-zinc-300">Full Name</label>
               <div className="relative">
@@ -35,6 +76,8 @@ export default function SignupPage() {
                 </div>
                 <input 
                   type="text" 
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   className="w-full bg-black/50 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 transition-all"
                   placeholder="John Doe"
                   required
@@ -50,6 +93,8 @@ export default function SignupPage() {
                 </div>
                 <input 
                   type="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full bg-black/50 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 transition-all"
                   placeholder="you@example.com"
                   required
@@ -65,6 +110,8 @@ export default function SignupPage() {
                 </div>
                 <input 
                   type="password" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full bg-black/50 border border-white/10 rounded-xl py-2.5 pl-10 pr-4 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 transition-all"
                   placeholder="••••••••"
                   required
@@ -93,11 +140,11 @@ export default function SignupPage() {
 
             <button
               type="submit"
-              disabled={!captchaVerified || !agreed}
+              disabled={loading || !captchaVerified || !agreed}
               className="w-full flex items-center justify-center gap-2 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98] text-white py-3 rounded-xl font-medium transition-all mt-2 shadow-[0_0_15px_rgba(6,182,212,0.2)]"
             >
-              Create account
-              <ArrowRight size={16} />
+              {loading ? "Creating account..." : "Create account"}
+              {!loading && <ArrowRight size={16} />}
             </button>
           </form>
 
